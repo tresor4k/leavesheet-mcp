@@ -1,0 +1,46 @@
+{
+  "name": "leavesheet-mcp",
+  "version": "0.1.0",
+  "mcpName": "io.github.tresor4k/leavesheet-mcp",
+  "description": "MCP server for WH-347 certified payroll (columns 5-9, fringe 6B reconciliation) and PTO accrual balances, ported from the TableTemplates Go engines.",
+  "type": "module",
+  "bin": {
+    "leavesheet-mcp": "src/index.js"
+  },
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=22"
+  },
+  "homepage": "https://tabletemplates.com/certified-payroll-software/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresor4k/leavesheet-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresor4k/leavesheet-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "wh-347",
+    "certified-payroll",
+    "davis-bacon",
+    "prevailing-wage",
+    "pto",
+    "leave-accrual"
+  ],
+  "license": "MIT",
+  "author": "tresor4k",
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "zod": "^4.1.0"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  }
+}

@@ -1,0 +1,63 @@
+---
+title: Overview
+description: What leavesheet-mcp is, how to install it and what every response contains.
+---
+
+# leavesheet-mcp
+
+`leavesheet-mcp` is a Model Context Protocol server over stdio. It runs two payroll calculations used by
+[LeaveSheet / TableTemplates](https://tabletemplates.com/certified-payroll-software/):
+
+- the U.S. DOL **WH-347** certified payroll form, revised version (Rev. January 2025): columns 2 and 5-9 for a crew
+  week, fringe paid to each plan, and the column 6B reconciliation
+- **PTO accrual**: the leave balance at a date, with hire date, annual cap, tenure tiers, carryover cap, approved and
+  pending requests, holidays and half days
+
+The calculations are a line-by-line JavaScript port of the open-source Go packages
+`codeberg.org/tresor2k/tabletemplates-go/wh347`, `.../pto` and the `wh347` command (`.../cmd/wh347`). The test suite
+checks the output byte for byte against those Go engines on 28 golden cases. The server uses no network access and
+stores no data.
+
+## Install
+
+Node.js 22 or later.
+
+```bash
+npx -y leavesheet-mcp
+```
+
+Claude Desktop (`claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "leavesheet": {
+      "command": "npx",
+      "args": ["-y", "leavesheet-mcp"]
+    }
+  }
+}
+```
+
+## What every response contains
+
+Each tool returns one JSON text block. Besides the results, every response carries three fields:
+
+- `source`: the engine that produced the numbers
+- `reference_url`: the LeaveSheet page for that calculation (`https://tabletemplates.com/certified-payroll-software/`
+  for the WH-347 tools, `https://tabletemplates.com/pto-tracking-software/` for `pto_accrual`)
+- `disclaimer`: calculator output only, not legal or payroll advice
+
+## Limits
+
+- Not an official DOL tool, not legal or payroll advice. The WH-347 tools do not look up prevailing wage rates,
+  classify work, or compute taxes: rates and deductions are entered. The ST/OT split is entered, not computed.
+- WH-347 amounts are rounded to cents in the output only (halves toward +infinity), never inside the calculation.
+  PTO values are not rounded.
+- PTO accrual is month-granular (the hire month counts in full), years of service are days / 365, and accrual restarts
+  on January 1. The carryover is the value you enter, capped by the policy. State paid-leave laws are not encoded; the
+  only built-in holidays are the U.S. federal ones.
+
+## Pages
+
+- [Tools](/tools): the three tools, their inputs and an example response for each

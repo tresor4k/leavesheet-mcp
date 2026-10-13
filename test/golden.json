@@ -1,0 +1,1015 @@
+{
+ "generated_by": "scripts/gen-golden.mjs with go version go1.24.1 windows/amd64",
+ "wh347": [
+  {
+   "name": "reference example (wh347 --example)",
+   "input": {
+    "workers": [
+     {
+      "worker": "John Mason",
+      "type": "J",
+      "base_rate": 30,
+      "fringe_health_welfare": 4,
+      "fringe_pension": 2,
+      "fringe_vacation": 0,
+      "fringe_training": 0,
+      "st_hours": [
+       8,
+       8,
+       8,
+       8,
+       8,
+       0,
+       0
+      ],
+      "ot_hours": [
+       4,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "other_deductions": 310
+     },
+     {
+      "worker": "Worker 2",
+      "type": "RA",
+      "base_rate": 20,
+      "fringe_health_welfare": 1,
+      "fringe_pension": 1,
+      "fringe_vacation": 0.5,
+      "fringe_training": 0.25,
+      "st_hours": [
+       8,
+       8,
+       8,
+       8,
+       8,
+       0,
+       0
+      ],
+      "ot_hours": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"John Mason\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 40,\n      \"ot_hours\": 4,\n      \"total_hours\": 44,\n      \"rate_6a_st\": 30,\n      \"rate_6a_ot\": 45,\n      \"fringe_6b\": 264,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 1380,\n      \"gross_all_work_7b\": 1380,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 310,\n      \"net_pay_9\": 1070,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 3,\n      \"worker\": \"Worker 2\",\n      \"worker_type\": \"RA\",\n      \"st_hours\": 40,\n      \"ot_hours\": 0,\n      \"total_hours\": 40,\n      \"rate_6a_st\": 20,\n      \"rate_6a_ot\": 30,\n      \"fringe_6b\": 110,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 800,\n      \"gross_all_work_7b\": 800,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 800,\n      \"sanity\": \"ok\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 216,\n    \"pension\": 128,\n    \"vacation\": 20,\n    \"training\": 10\n  },\n  \"plan_totals_sum\": 374,\n  \"fringe_column_6b_sum\": 374,\n  \"reconciles\": true\n}\n"
+  },
+  {
+   "name": "overtime spread over several days",
+   "input": {
+    "workers": [
+     {
+      "worker": "Ana Ruiz",
+      "type": "J",
+      "base_rate": 37.83,
+      "fringe_health_welfare": 9.17,
+      "fringe_pension": 6.42,
+      "fringe_vacation": 1.1,
+      "fringe_training": 0.37,
+      "st_hours": [
+       8,
+       8,
+       8,
+       8,
+       8,
+       4
+      ],
+      "ot_hours": [
+       2,
+       1.5,
+       0,
+       2.25,
+       0,
+       3
+      ]
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"Ana Ruiz\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 44,\n      \"ot_hours\": 8.75,\n      \"total_hours\": 52.75,\n      \"rate_6a_st\": 37.83,\n      \"rate_6a_ot\": 56.75,\n      \"fringe_6b\": 899.92,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 2161.04,\n      \"gross_all_work_7b\": 2161.04,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 2161.04,\n      \"sanity\": \"ok\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 483.72,\n    \"pension\": 338.66,\n    \"vacation\": 58.03,\n    \"training\": 19.52\n  },\n  \"plan_totals_sum\": 899.92,\n  \"fringe_column_6b_sum\": 899.92,\n  \"reconciles\": true\n}\n"
+  },
+  {
+   "name": "fringe paid in cash vs. to plans",
+   "input": {
+    "workers": [
+     {
+      "worker": "Cash fringe",
+      "type": "J",
+      "base_rate": 41.2,
+      "fringe_health_welfare": 0,
+      "fringe_pension": 0,
+      "fringe_vacation": 0,
+      "fringe_training": 0,
+      "st_hours": [
+       8,
+       8,
+       8,
+       8,
+       8
+      ],
+      "ot_hours": [],
+      "cash_in_lieu_rate": 12.48
+     },
+     {
+      "worker": "Plan fringe",
+      "type": "J",
+      "base_rate": 41.2,
+      "fringe_health_welfare": 7.13,
+      "fringe_pension": 4.1,
+      "fringe_vacation": 1.05,
+      "fringe_training": 0.2,
+      "st_hours": [
+       8,
+       8,
+       8,
+       8,
+       8
+      ],
+      "ot_hours": []
+     },
+     {
+      "worker": "Split fringe",
+      "type": "J",
+      "base_rate": 41.2,
+      "fringe_health_welfare": 7.13,
+      "fringe_pension": 0,
+      "fringe_vacation": 0,
+      "fringe_training": 0,
+      "st_hours": [
+       8,
+       8,
+       8,
+       8,
+       8
+      ],
+      "ot_hours": [],
+      "cash_in_lieu_rate": 5.35
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"Cash fringe\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 40,\n      \"ot_hours\": 0,\n      \"total_hours\": 40,\n      \"rate_6a_st\": 41.2,\n      \"rate_6a_ot\": 61.8,\n      \"fringe_6b\": 0,\n      \"cash_in_lieu_6c\": 499.2,\n      \"gross_project_7a\": 2147.2,\n      \"gross_all_work_7b\": 2147.2,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 2147.2,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 3,\n      \"worker\": \"Plan fringe\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 40,\n      \"ot_hours\": 0,\n      \"total_hours\": 40,\n      \"rate_6a_st\": 41.2,\n      \"rate_6a_ot\": 61.8,\n      \"fringe_6b\": 499.2,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 1648,\n      \"gross_all_work_7b\": 1648,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 1648,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 4,\n      \"worker\": \"Split fringe\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 40,\n      \"ot_hours\": 0,\n      \"total_hours\": 40,\n      \"rate_6a_st\": 41.2,\n      \"rate_6a_ot\": 61.8,\n      \"fringe_6b\": 285.2,\n      \"cash_in_lieu_6c\": 214,\n      \"gross_project_7a\": 1862,\n      \"gross_all_work_7b\": 1862,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 1862,\n      \"sanity\": \"ok\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 570.4,\n    \"pension\": 164,\n    \"vacation\": 42,\n    \"training\": 8\n  },\n  \"plan_totals_sum\": 784.4,\n  \"fringe_column_6b_sum\": 784.4,\n  \"reconciles\": true\n}\n"
+  },
+  {
+   "name": "itemized deductions",
+   "input": {
+    "workers": [
+     {
+      "worker": "D. Itemized",
+      "type": "J",
+      "base_rate": 28.65,
+      "fringe_health_welfare": 5.5,
+      "fringe_pension": 3.25,
+      "fringe_vacation": 0,
+      "fringe_training": 0.15,
+      "st_hours": [
+       8,
+       8,
+       8,
+       8,
+       8
+      ],
+      "ot_hours": [
+       0,
+       0,
+       1.5
+      ],
+      "fica": 98.37,
+      "federal_tax": 121.05,
+      "state_tax": 33.1,
+      "other_deductions": 15
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"D. Itemized\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 40,\n      \"ot_hours\": 1.5,\n      \"total_hours\": 41.5,\n      \"rate_6a_st\": 28.65,\n      \"rate_6a_ot\": 42.97,\n      \"fringe_6b\": 369.35,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 1210.46,\n      \"gross_all_work_7b\": 1210.46,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 267.52,\n      \"net_pay_9\": 942.94,\n      \"sanity\": \"ok\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 228.25,\n    \"pension\": 134.88,\n    \"vacation\": 0,\n    \"training\": 6.23\n  },\n  \"plan_totals_sum\": 369.35,\n  \"fringe_column_6b_sum\": 369.35,\n  \"reconciles\": true\n}\n"
+  },
+  {
+   "name": "7B entered above and below 7A",
+   "input": {
+    "workers": [
+     {
+      "worker": "Other jobs too",
+      "type": "J",
+      "base_rate": 30,
+      "fringe_health_welfare": 4,
+      "fringe_pension": 2,
+      "fringe_vacation": 0,
+      "fringe_training": 0,
+      "st_hours": [
+       8,
+       8,
+       8,
+       8,
+       8
+      ],
+      "ot_hours": [
+       4
+      ],
+      "gross_all_work": 1500,
+      "other_deductions": 310
+     },
+     {
+      "worker": "7B below 7A",
+      "type": "J",
+      "base_rate": 30,
+      "fringe_health_welfare": 4,
+      "fringe_pension": 2,
+      "fringe_vacation": 0,
+      "fringe_training": 0,
+      "st_hours": [
+       8,
+       8,
+       8,
+       8,
+       8
+      ],
+      "ot_hours": [
+       4
+      ],
+      "gross_all_work": 1000,
+      "fica": 76.5
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"Other jobs too\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 40,\n      \"ot_hours\": 4,\n      \"total_hours\": 44,\n      \"rate_6a_st\": 30,\n      \"rate_6a_ot\": 45,\n      \"fringe_6b\": 264,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 1380,\n      \"gross_all_work_7b\": 1500,\n      \"gross_all_work_7b_entered\": true,\n      \"deductions_8\": 310,\n      \"net_pay_9\": 1190,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 3,\n      \"worker\": \"7B below 7A\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 40,\n      \"ot_hours\": 4,\n      \"total_hours\": 44,\n      \"rate_6a_st\": 30,\n      \"rate_6a_ot\": 45,\n      \"fringe_6b\": 264,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 1380,\n      \"gross_all_work_7b\": 1000,\n      \"gross_all_work_7b_entered\": true,\n      \"deductions_8\": 76.5,\n      \"net_pay_9\": 923.5,\n      \"sanity\": \"review\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 352,\n    \"pension\": 176,\n    \"vacation\": 0,\n    \"training\": 0\n  },\n  \"plan_totals_sum\": 528,\n  \"fringe_column_6b_sum\": 528,\n  \"reconciles\": true\n}\n"
+  },
+  {
+   "name": "negative net pay flagged for review",
+   "input": {
+    "workers": [
+     {
+      "worker": "Overdeducted",
+      "type": "J",
+      "base_rate": 22,
+      "fringe_health_welfare": 0,
+      "fringe_pension": 0,
+      "fringe_vacation": 0,
+      "fringe_training": 0,
+      "st_hours": [
+       4,
+       4
+      ],
+      "ot_hours": [],
+      "federal_tax": 120,
+      "state_tax": 30,
+      "other_deductions": 40
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"Overdeducted\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 8,\n      \"ot_hours\": 0,\n      \"total_hours\": 8,\n      \"rate_6a_st\": 22,\n      \"rate_6a_ot\": 33,\n      \"fringe_6b\": 0,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 176,\n      \"gross_all_work_7b\": 176,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 190,\n      \"net_pay_9\": -14,\n      \"sanity\": \"review\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 0,\n    \"pension\": 0,\n    \"vacation\": 0,\n    \"training\": 0\n  },\n  \"plan_totals_sum\": 0,\n  \"fringe_column_6b_sum\": 0,\n  \"reconciles\": true\n}\n"
+  },
+  {
+   "name": "more than 112 hours flagged for review",
+   "input": {
+    "workers": [
+     {
+      "worker": "Long week",
+      "type": "J",
+      "base_rate": 25,
+      "fringe_health_welfare": 1,
+      "fringe_pension": 1,
+      "fringe_vacation": 1,
+      "fringe_training": 1,
+      "st_hours": [
+       16,
+       16,
+       16,
+       16,
+       16,
+       16,
+       10
+      ],
+      "ot_hours": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"Long week\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 106,\n      \"ot_hours\": 5,\n      \"total_hours\": 111,\n      \"rate_6a_st\": 25,\n      \"rate_6a_ot\": 37.5,\n      \"fringe_6b\": 444,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 2837.5,\n      \"gross_all_work_7b\": 2837.5,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 2837.5,\n      \"sanity\": \"ok\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 111,\n    \"pension\": 111,\n    \"vacation\": 111,\n    \"training\": 111\n  },\n  \"plan_totals_sum\": 444,\n  \"fringe_column_6b_sum\": 444,\n  \"reconciles\": true\n}\n"
+  },
+  {
+   "name": "apprentice, lowercase and empty type",
+   "input": {
+    "workers": [
+     {
+      "worker": "Apprentice",
+      "type": "ra",
+      "base_rate": 19.37,
+      "fringe_health_welfare": 2.01,
+      "fringe_pension": 1.11,
+      "fringe_vacation": 0.33,
+      "fringe_training": 0.47,
+      "st_hours": [
+       7.5,
+       7.5,
+       7.5,
+       7.5,
+       7.5
+      ],
+      "ot_hours": [
+       0,
+       0.75
+      ]
+     },
+     {
+      "worker": "Journey",
+      "type": "j",
+      "base_rate": 44.18,
+      "fringe_health_welfare": 10.02,
+      "fringe_pension": 8.4,
+      "fringe_vacation": 0,
+      "fringe_training": 0.71,
+      "st_hours": [
+       10,
+       10,
+       10,
+       10
+      ],
+      "ot_hours": [
+       0,
+       0,
+       0,
+       0,
+       2
+      ]
+     },
+     {
+      "worker": "Unspecified",
+      "type": "",
+      "base_rate": 31,
+      "fringe_health_welfare": 3,
+      "fringe_pension": 3,
+      "fringe_vacation": 0,
+      "fringe_training": 0,
+      "st_hours": [
+       8,
+       8
+      ],
+      "ot_hours": []
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"Apprentice\",\n      \"worker_type\": \"RA\",\n      \"st_hours\": 37.5,\n      \"ot_hours\": 0.75,\n      \"total_hours\": 38.25,\n      \"rate_6a_st\": 19.37,\n      \"rate_6a_ot\": 29.06,\n      \"fringe_6b\": 149.94,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 748.17,\n      \"gross_all_work_7b\": 748.17,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 748.17,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 3,\n      \"worker\": \"Journey\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 40,\n      \"ot_hours\": 2,\n      \"total_hours\": 42,\n      \"rate_6a_st\": 44.18,\n      \"rate_6a_ot\": 66.27,\n      \"fringe_6b\": 803.46,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 1899.74,\n      \"gross_all_work_7b\": 1899.74,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 1899.74,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 4,\n      \"worker\": \"Unspecified\",\n      \"worker_type\": \"\",\n      \"st_hours\": 16,\n      \"ot_hours\": 0,\n      \"total_hours\": 16,\n      \"rate_6a_st\": 31,\n      \"rate_6a_ot\": 46.5,\n      \"fringe_6b\": 96,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 496,\n      \"gross_all_work_7b\": 496,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 496,\n      \"sanity\": \"ok\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 545.72,\n    \"pension\": 443.26,\n    \"vacation\": 12.62,\n    \"training\": 47.8\n  },\n  \"plan_totals_sum\": 1049.4,\n  \"fringe_column_6b_sum\": 1049.4,\n  \"reconciles\": true\n}\n"
+  },
+  {
+   "name": "cent-rounding edge values",
+   "input": {
+    "workers": [
+     {
+      "worker": "Half cent",
+      "type": "J",
+      "base_rate": 10.005,
+      "fringe_health_welfare": 0.005,
+      "fringe_pension": 0.005,
+      "fringe_vacation": 0,
+      "fringe_training": 0,
+      "st_hours": [
+       1
+      ],
+      "ot_hours": [
+       1
+      ],
+      "fica": 0.015
+     },
+     {
+      "worker": "Thirds",
+      "type": "J",
+      "base_rate": 33.335,
+      "fringe_health_welfare": 0.1,
+      "fringe_pension": 0.2,
+      "fringe_vacation": 0.3,
+      "fringe_training": 0.07,
+      "st_hours": [
+       7.33,
+       7.33,
+       7.34
+      ],
+      "ot_hours": [
+       0.1,
+       0.2
+      ],
+      "state_tax": 0.105
+     },
+     {
+      "worker": "Tiny",
+      "type": "J",
+      "base_rate": 0.07,
+      "fringe_health_welfare": 0.01,
+      "fringe_pension": 0.02,
+      "fringe_vacation": 0,
+      "fringe_training": 0,
+      "st_hours": [
+       0.1,
+       0.2
+      ],
+      "ot_hours": [
+       0.3
+      ]
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"Half cent\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 1,\n      \"ot_hours\": 1,\n      \"total_hours\": 2,\n      \"rate_6a_st\": 10.01,\n      \"rate_6a_ot\": 15.01,\n      \"fringe_6b\": 0.02,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 25.01,\n      \"gross_all_work_7b\": 25.01,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0.02,\n      \"net_pay_9\": 25,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 3,\n      \"worker\": \"Thirds\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 22,\n      \"ot_hours\": 0.3,\n      \"total_hours\": 22.3,\n      \"rate_6a_st\": 33.34,\n      \"rate_6a_ot\": 50,\n      \"fringe_6b\": 14.94,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 748.37,\n      \"gross_all_work_7b\": 748.37,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0.11,\n      \"net_pay_9\": 748.27,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 4,\n      \"worker\": \"Tiny\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 0.3,\n      \"ot_hours\": 0.3,\n      \"total_hours\": 0.6,\n      \"rate_6a_st\": 0.07,\n      \"rate_6a_ot\": 0.11,\n      \"fringe_6b\": 0.02,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 0.05,\n      \"gross_all_work_7b\": 0.05,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 0.05,\n      \"sanity\": \"ok\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 2.25,\n    \"pension\": 4.48,\n    \"vacation\": 6.69,\n    \"training\": 1.56\n  },\n  \"plan_totals_sum\": 14.98,\n  \"fringe_column_6b_sum\": 14.98,\n  \"reconciles\": true\n}\n"
+  },
+  {
+   "name": "empty worker row",
+   "input": {
+    "workers": [
+     {
+      "worker": "",
+      "type": "",
+      "base_rate": 0,
+      "fringe_health_welfare": 0,
+      "fringe_pension": 0,
+      "fringe_vacation": 0,
+      "fringe_training": 0,
+      "st_hours": [],
+      "ot_hours": []
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"\",\n      \"worker_type\": \"\",\n      \"st_hours\": 0,\n      \"ot_hours\": 0,\n      \"total_hours\": 0,\n      \"rate_6a_st\": 0,\n      \"rate_6a_ot\": 0,\n      \"fringe_6b\": 0,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 0,\n      \"gross_all_work_7b\": 0,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 0,\n      \"sanity\": \"ok\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 0,\n    \"pension\": 0,\n    \"vacation\": 0,\n    \"training\": 0\n  },\n  \"plan_totals_sum\": 0,\n  \"fringe_column_6b_sum\": 0,\n  \"reconciles\": true\n}\n"
+  },
+  {
+   "name": "weekend days (day 6 and day 7)",
+   "input": {
+    "workers": [
+     {
+      "worker": "Weekend crew",
+      "type": "J",
+      "base_rate": 35.5,
+      "fringe_health_welfare": 6.25,
+      "fringe_pension": 4,
+      "fringe_vacation": 0.5,
+      "fringe_training": 0.25,
+      "st_hours": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       8,
+       8
+      ],
+      "ot_hours": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       2,
+       4
+      ],
+      "fica": 50.11
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"Weekend crew\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 16,\n      \"ot_hours\": 6,\n      \"total_hours\": 22,\n      \"rate_6a_st\": 35.5,\n      \"rate_6a_ot\": 53.25,\n      \"fringe_6b\": 242,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 887.5,\n      \"gross_all_work_7b\": 887.5,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 50.11,\n      \"net_pay_9\": 837.39,\n      \"sanity\": \"ok\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 137.5,\n    \"pension\": 88,\n    \"vacation\": 11,\n    \"training\": 5.5\n  },\n  \"plan_totals_sum\": 242,\n  \"fringe_column_6b_sum\": 242,\n  \"reconciles\": true\n}\n"
+  },
+  {
+   "name": "crew of six, mixed",
+   "input": {
+    "workers": [
+     {
+      "worker": "A",
+      "type": "J",
+      "base_rate": 52.1,
+      "fringe_health_welfare": 12.33,
+      "fringe_pension": 9.87,
+      "fringe_vacation": 2.5,
+      "fringe_training": 0.65,
+      "st_hours": [
+       8,
+       8,
+       8,
+       8,
+       8
+      ],
+      "ot_hours": [
+       1,
+       1,
+       1,
+       1,
+       1
+      ]
+     },
+     {
+      "worker": "B",
+      "type": "J",
+      "base_rate": 48.75,
+      "fringe_health_welfare": 12.33,
+      "fringe_pension": 9.87,
+      "fringe_vacation": 2.5,
+      "fringe_training": 0.65,
+      "st_hours": [
+       10,
+       10,
+       10,
+       10
+      ],
+      "ot_hours": [],
+      "fica": 182.41,
+      "federal_tax": 260
+     },
+     {
+      "worker": "C",
+      "type": "RA",
+      "base_rate": 26.06,
+      "fringe_health_welfare": 12.33,
+      "fringe_pension": 4.2,
+      "fringe_vacation": 0,
+      "fringe_training": 0.65,
+      "st_hours": [
+       8,
+       8,
+       8,
+       8,
+       8
+      ],
+      "ot_hours": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       3.5
+      ]
+     },
+     {
+      "worker": "D",
+      "type": "J",
+      "base_rate": 52.1,
+      "fringe_health_welfare": 0,
+      "fringe_pension": 0,
+      "fringe_vacation": 0,
+      "fringe_training": 0,
+      "st_hours": [
+       6,
+       6,
+       6
+      ],
+      "ot_hours": [],
+      "cash_in_lieu_rate": 25.35
+     },
+     {
+      "worker": "E",
+      "type": "J",
+      "base_rate": 39.99,
+      "fringe_health_welfare": 0.01,
+      "fringe_pension": 0.02,
+      "fringe_vacation": 0.03,
+      "fringe_training": 0.04,
+      "st_hours": [
+       8.25,
+       8.25,
+       8.25,
+       8.25
+      ],
+      "ot_hours": [
+       0.25,
+       0.25,
+       0.25,
+       0.25
+      ],
+      "gross_all_work": 1801.12
+     },
+     {
+      "worker": "F",
+      "type": "",
+      "base_rate": 61.4,
+      "fringe_health_welfare": 12.33,
+      "fringe_pension": 9.87,
+      "fringe_vacation": 2.5,
+      "fringe_training": 0.65,
+      "st_hours": [
+       12
+      ],
+      "ot_hours": [
+       4
+      ],
+      "other_deductions": 1500
+     }
+    ]
+   },
+   "exit_status": 0,
+   "stdout": "{\n  \"form\": \"WH-347 (Rev. January 2025)\",\n  \"lines\": [\n    {\n      \"csv_line\": 2,\n      \"worker\": \"A\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 40,\n      \"ot_hours\": 5,\n      \"total_hours\": 45,\n      \"rate_6a_st\": 52.1,\n      \"rate_6a_ot\": 78.15,\n      \"fringe_6b\": 1140.75,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 2474.75,\n      \"gross_all_work_7b\": 2474.75,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 2474.75,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 3,\n      \"worker\": \"B\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 40,\n      \"ot_hours\": 0,\n      \"total_hours\": 40,\n      \"rate_6a_st\": 48.75,\n      \"rate_6a_ot\": 73.13,\n      \"fringe_6b\": 1014,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 1950,\n      \"gross_all_work_7b\": 1950,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 442.41,\n      \"net_pay_9\": 1507.59,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 4,\n      \"worker\": \"C\",\n      \"worker_type\": \"RA\",\n      \"st_hours\": 40,\n      \"ot_hours\": 3.5,\n      \"total_hours\": 43.5,\n      \"rate_6a_st\": 26.06,\n      \"rate_6a_ot\": 39.09,\n      \"fringe_6b\": 747.33,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 1179.21,\n      \"gross_all_work_7b\": 1179.21,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 1179.21,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 5,\n      \"worker\": \"D\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 18,\n      \"ot_hours\": 0,\n      \"total_hours\": 18,\n      \"rate_6a_st\": 52.1,\n      \"rate_6a_ot\": 78.15,\n      \"fringe_6b\": 0,\n      \"cash_in_lieu_6c\": 456.3,\n      \"gross_project_7a\": 1394.1,\n      \"gross_all_work_7b\": 1394.1,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 1394.1,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 6,\n      \"worker\": \"E\",\n      \"worker_type\": \"J\",\n      \"st_hours\": 33,\n      \"ot_hours\": 1,\n      \"total_hours\": 34,\n      \"rate_6a_st\": 39.99,\n      \"rate_6a_ot\": 59.99,\n      \"fringe_6b\": 3.4,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 1379.66,\n      \"gross_all_work_7b\": 1801.12,\n      \"gross_all_work_7b_entered\": true,\n      \"deductions_8\": 0,\n      \"net_pay_9\": 1801.12,\n      \"sanity\": \"ok\"\n    },\n    {\n      \"csv_line\": 7,\n      \"worker\": \"F\",\n      \"worker_type\": \"\",\n      \"st_hours\": 12,\n      \"ot_hours\": 4,\n      \"total_hours\": 16,\n      \"rate_6a_st\": 61.4,\n      \"rate_6a_ot\": 92.1,\n      \"fringe_6b\": 405.6,\n      \"cash_in_lieu_6c\": 0,\n      \"gross_project_7a\": 1105.2,\n      \"gross_all_work_7b\": 1105.2,\n      \"gross_all_work_7b_entered\": false,\n      \"deductions_8\": 1500,\n      \"net_pay_9\": -394.8,\n      \"sanity\": \"review\"\n    }\n  ],\n  \"plan_totals\": {\n    \"health_welfare\": 1782.03,\n    \"pension\": 1180.25,\n    \"vacation\": 253.52,\n    \"training\": 95.29\n  },\n  \"plan_totals_sum\": 3311.08,\n  \"fringe_column_6b_sum\": 3311.08,\n  \"reconciles\": true\n}\n"
+  }
+ ],
+ "pto": [
+  {
+   "name": "monthly, hired mid-month",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1.25,
+     "annual_cap": 15,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 0.25,
+     "tier2_years": 5,
+     "tier2_bonus": 0.5
+    },
+    "hire_date": "2026-03-15",
+    "as_of": "2026-06-30",
+    "carryover": 3
+   },
+   "output": "{\"balance\":{\"months_worked\":4,\"years_of_service\":0.29315068493150687,\"effective_rate\":1.25,\"accrued\":5,\"carryover\":3,\"taken\":0,\"pending\":0,\"left\":8,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "monthly, hired later in the as-of month",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1.25,
+     "annual_cap": 15,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 0.25,
+     "tier2_years": 5,
+     "tier2_bonus": 0.5
+    },
+    "hire_date": "2026-06-20",
+    "as_of": "2026-06-10"
+   },
+   "output": "{\"balance\":{\"months_worked\":1,\"years_of_service\":-0.0273972602739726,\"effective_rate\":1.25,\"accrued\":1.25,\"carryover\":0,\"taken\":0,\"pending\":0,\"left\":1.25,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "monthly, annual cap reached",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 2,
+     "annual_cap": 15,
+     "carryover_max": 5
+    },
+    "hire_date": "2025-02-01",
+    "as_of": "2026-11-15"
+   },
+   "output": "{\"balance\":{\"months_worked\":11,\"years_of_service\":1.7863013698630137,\"effective_rate\":2,\"accrued\":15,\"carryover\":0,\"taken\":0,\"pending\":0,\"left\":15,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "tier 1 the day before the 2-year anniversary",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1.25,
+     "annual_cap": 15,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 0.25,
+     "tier2_years": 5,
+     "tier2_bonus": 0.5
+    },
+    "hire_date": "2024-07-01",
+    "as_of": "2026-06-30"
+   },
+   "output": "{\"balance\":{\"months_worked\":6,\"years_of_service\":1.9972602739726026,\"effective_rate\":1.25,\"accrued\":7.5,\"carryover\":0,\"taken\":0,\"pending\":0,\"left\":7.5,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "tier 1 on the 2-year anniversary",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1.25,
+     "annual_cap": 15,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 0.25,
+     "tier2_years": 5,
+     "tier2_bonus": 0.5
+    },
+    "hire_date": "2024-07-01",
+    "as_of": "2026-07-01"
+   },
+   "output": "{\"balance\":{\"months_worked\":7,\"years_of_service\":2,\"effective_rate\":1.5,\"accrued\":10.5,\"carryover\":0,\"taken\":0,\"pending\":0,\"left\":10.5,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "tier 2 on the 5-year anniversary (leap year inside)",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1.25,
+     "annual_cap": 15,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 0.25,
+     "tier2_years": 5,
+     "tier2_bonus": 0.5
+    },
+    "hire_date": "2021-03-01",
+    "as_of": "2026-03-01"
+   },
+   "output": "{\"balance\":{\"months_worked\":3,\"years_of_service\":5.002739726027397,\"effective_rate\":1.75,\"accrued\":5.25,\"carryover\":0,\"taken\":0,\"pending\":0,\"left\":5.25,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "tier 2 replaces tier 1, cap reached",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1.25,
+     "annual_cap": 15,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 0.25,
+     "tier2_years": 5,
+     "tier2_bonus": 0.5
+    },
+    "hire_date": "2015-01-10",
+    "as_of": "2026-12-31"
+   },
+   "output": "{\"balance\":{\"months_worked\":12,\"years_of_service\":11.98082191780822,\"effective_rate\":1.75,\"accrued\":15,\"carryover\":0,\"taken\":0,\"pending\":0,\"left\":15,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "year end: December 31 with capped carryover",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1.25,
+     "annual_cap": 15,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 0.25,
+     "tier2_years": 5,
+     "tier2_bonus": 0.5
+    },
+    "hire_date": "2023-04-03",
+    "as_of": "2026-12-31",
+    "carryover": 9
+   },
+   "output": "{\"balance\":{\"months_worked\":12,\"years_of_service\":3.747945205479452,\"effective_rate\":1.5,\"accrued\":15,\"carryover\":5,\"taken\":0,\"pending\":0,\"left\":20,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "year end: January 1 restarts accrual",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1.25,
+     "annual_cap": 15,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 0.25,
+     "tier2_years": 5,
+     "tier2_bonus": 0.5
+    },
+    "hire_date": "2023-04-03",
+    "as_of": "2027-01-01",
+    "carryover": 9
+   },
+   "output": "{\"balance\":{\"months_worked\":1,\"years_of_service\":3.750684931506849,\"effective_rate\":1.5,\"accrued\":1.5,\"carryover\":5,\"taken\":0,\"pending\":0,\"left\":6.5,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "annual grant prorated in the hire year",
+   "input": {
+    "policy": {
+     "period": "annual",
+     "rate": 15,
+     "annual_cap": 20,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 3,
+     "tier2_years": 5,
+     "tier2_bonus": 5
+    },
+    "hire_date": "2026-04-10",
+    "as_of": "2026-05-01"
+   },
+   "output": "{\"balance\":{\"months_worked\":2,\"years_of_service\":0.057534246575342465,\"effective_rate\":15,\"accrued\":11.25,\"carryover\":0,\"taken\":0,\"pending\":0,\"left\":11.25,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "annual grant, as-of before hire",
+   "input": {
+    "policy": {
+     "period": "annual",
+     "rate": 15,
+     "annual_cap": 20,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 3,
+     "tier2_years": 5,
+     "tier2_bonus": 5
+    },
+    "hire_date": "2026-04-10",
+    "as_of": "2026-04-09"
+   },
+   "output": "{\"balance\":{\"months_worked\":1,\"years_of_service\":-0.0027397260273972603,\"effective_rate\":15,\"accrued\":0,\"carryover\":0,\"taken\":0,\"pending\":0,\"left\":0,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "annual grant, tier 2, capped",
+   "input": {
+    "policy": {
+     "period": "annual",
+     "rate": 15,
+     "annual_cap": 20,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 3,
+     "tier2_years": 5,
+     "tier2_bonus": 5
+    },
+    "hire_date": "2020-09-15",
+    "as_of": "2026-02-01",
+    "carryover": 2.5
+   },
+   "output": "{\"balance\":{\"months_worked\":2,\"years_of_service\":5.383561643835616,\"effective_rate\":20,\"accrued\":20,\"carryover\":2.5,\"taken\":0,\"pending\":0,\"left\":22.5,\"is_negative\":false},\"request_days\":[]}"
+  },
+  {
+   "name": "requests with US federal holidays and half days",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1.25,
+     "annual_cap": 15,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 0.25,
+     "tier2_years": 5,
+     "tier2_bonus": 0.5
+    },
+    "hire_date": "2022-01-03",
+    "as_of": "2026-07-31",
+    "carryover": 4,
+    "us_federal_holidays_years": [
+     2026
+    ],
+    "requests": [
+     {
+      "start": "2026-06-29",
+      "end": "2026-07-07",
+      "status": "approved",
+      "start_half": false,
+      "end_half": false
+     },
+     {
+      "start": "2026-05-22",
+      "end": "2026-05-26",
+      "status": "approved",
+      "start_half": true,
+      "end_half": false
+     },
+     {
+      "start": "2026-07-20",
+      "end": "2026-07-21",
+      "status": "pending",
+      "start_half": false,
+      "end_half": true
+     },
+     {
+      "start": "2026-03-02",
+      "end": "2026-03-06",
+      "status": "denied",
+      "start_half": false,
+      "end_half": false
+     },
+     {
+      "start": "2026-04-06",
+      "end": "2026-04-07",
+      "status": "cancelled",
+      "start_half": false,
+      "end_half": false
+     }
+    ]
+   },
+   "output": "{\"balance\":{\"months_worked\":7,\"years_of_service\":4.575342465753424,\"effective_rate\":1.5,\"accrued\":10.5,\"carryover\":4,\"taken\":7.5,\"pending\":1.5,\"left\":7,\"is_negative\":false},\"request_days\":[6,1.5,1.5,5,2]}"
+  },
+  {
+   "name": "single half day, half day on a holiday, reversed range",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1.25,
+     "annual_cap": 15,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 0.25,
+     "tier2_years": 5,
+     "tier2_bonus": 0.5
+    },
+    "hire_date": "2025-01-06",
+    "as_of": "2026-12-15",
+    "us_federal_holidays_years": [
+     2026
+    ],
+    "requests": [
+     {
+      "start": "2026-02-10",
+      "end": "2026-02-10",
+      "status": "approved",
+      "start_half": true,
+      "end_half": false
+     },
+     {
+      "start": "2026-11-26",
+      "end": "2026-11-26",
+      "status": "approved",
+      "start_half": false,
+      "end_half": true
+     },
+     {
+      "start": "2026-12-28",
+      "end": "2026-12-24",
+      "status": "approved",
+      "start_half": false,
+      "end_half": false
+     },
+     {
+      "start": "2026-08-08",
+      "end": "2026-08-09",
+      "status": "approved",
+      "start_half": true,
+      "end_half": true
+     }
+    ]
+   },
+   "output": "{\"balance\":{\"months_worked\":12,\"years_of_service\":1.9397260273972603,\"effective_rate\":1.25,\"accrued\":15,\"carryover\":0,\"taken\":0.5,\"pending\":0,\"left\":14.5,\"is_negative\":false},\"request_days\":[0.5,0,0,0]}"
+  },
+  {
+   "name": "negative balance",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1,
+     "annual_cap": 12,
+     "carryover_max": 0
+    },
+    "hire_date": "2026-01-12",
+    "as_of": "2026-02-15",
+    "requests": [
+     {
+      "start": "2026-02-02",
+      "end": "2026-02-13",
+      "status": "approved",
+      "start_half": false,
+      "end_half": false
+     }
+    ]
+   },
+   "output": "{\"balance\":{\"months_worked\":2,\"years_of_service\":0.09315068493150686,\"effective_rate\":1,\"accrued\":2,\"carryover\":0,\"taken\":10,\"pending\":0,\"left\":-8,\"is_negative\":true},\"request_days\":[10]}"
+  },
+  {
+   "name": "negative carryover entered, custom holidays with duplicates and weekend",
+   "input": {
+    "policy": {
+     "period": "monthly",
+     "rate": 1.25,
+     "annual_cap": 15,
+     "carryover_max": 5,
+     "tier1_years": 2,
+     "tier1_bonus": 0.25,
+     "tier2_years": 5,
+     "tier2_bonus": 0.5
+    },
+    "hire_date": "2019-05-20",
+    "as_of": "2026-05-29",
+    "carryover": -1.5,
+    "holidays": [
+     "2026-05-25",
+     "2026-05-25",
+     "2026-05-23",
+     "2026-05-27"
+    ],
+    "requests": [
+     {
+      "start": "2026-05-18",
+      "end": "2026-05-29",
+      "status": "approved",
+      "start_half": false,
+      "end_half": true
+     },
+     {
+      "start": "2026-05-27",
+      "end": "2026-05-27",
+      "status": "pending",
+      "start_half": true,
+      "end_half": false
+     }
+    ]
+   },
+   "output": "{\"balance\":{\"months_worked\":5,\"years_of_service\":7.03013698630137,\"effective_rate\":1.75,\"accrued\":8.75,\"carryover\":-1.5,\"taken\":7.5,\"pending\":0,\"left\":-0.25,\"is_negative\":true},\"request_days\":[7.5,0]}"
+  }
+ ],
+ "us_federal_holidays": "{\"2020\":[{\"date\":\"2020-01-01\",\"name\":\"New Year's Day\"},{\"date\":\"2020-01-20\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2020-02-17\",\"name\":\"Washington's Birthday\"},{\"date\":\"2020-05-25\",\"name\":\"Memorial Day\"},{\"date\":\"2020-06-19\",\"name\":\"Juneteenth\"},{\"date\":\"2020-07-03\",\"name\":\"Independence Day\"},{\"date\":\"2020-09-07\",\"name\":\"Labor Day\"},{\"date\":\"2020-10-12\",\"name\":\"Columbus Day\"},{\"date\":\"2020-11-11\",\"name\":\"Veterans Day\"},{\"date\":\"2020-11-26\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2020-12-25\",\"name\":\"Christmas Day\"}],\"2021\":[{\"date\":\"2021-01-01\",\"name\":\"New Year's Day\"},{\"date\":\"2021-01-18\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2021-02-15\",\"name\":\"Washington's Birthday\"},{\"date\":\"2021-05-31\",\"name\":\"Memorial Day\"},{\"date\":\"2021-06-18\",\"name\":\"Juneteenth\"},{\"date\":\"2021-07-05\",\"name\":\"Independence Day\"},{\"date\":\"2021-09-06\",\"name\":\"Labor Day\"},{\"date\":\"2021-10-11\",\"name\":\"Columbus Day\"},{\"date\":\"2021-11-11\",\"name\":\"Veterans Day\"},{\"date\":\"2021-11-25\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2021-12-24\",\"name\":\"Christmas Day\"}],\"2022\":[{\"date\":\"2021-12-31\",\"name\":\"New Year's Day\"},{\"date\":\"2022-01-17\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2022-02-21\",\"name\":\"Washington's Birthday\"},{\"date\":\"2022-05-30\",\"name\":\"Memorial Day\"},{\"date\":\"2022-06-20\",\"name\":\"Juneteenth\"},{\"date\":\"2022-07-04\",\"name\":\"Independence Day\"},{\"date\":\"2022-09-05\",\"name\":\"Labor Day\"},{\"date\":\"2022-10-10\",\"name\":\"Columbus Day\"},{\"date\":\"2022-11-11\",\"name\":\"Veterans Day\"},{\"date\":\"2022-11-24\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2022-12-26\",\"name\":\"Christmas Day\"}],\"2023\":[{\"date\":\"2023-01-02\",\"name\":\"New Year's Day\"},{\"date\":\"2023-01-16\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2023-02-20\",\"name\":\"Washington's Birthday\"},{\"date\":\"2023-05-29\",\"name\":\"Memorial Day\"},{\"date\":\"2023-06-19\",\"name\":\"Juneteenth\"},{\"date\":\"2023-07-04\",\"name\":\"Independence Day\"},{\"date\":\"2023-09-04\",\"name\":\"Labor Day\"},{\"date\":\"2023-10-09\",\"name\":\"Columbus Day\"},{\"date\":\"2023-11-10\",\"name\":\"Veterans Day\"},{\"date\":\"2023-11-23\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2023-12-25\",\"name\":\"Christmas Day\"}],\"2024\":[{\"date\":\"2024-01-01\",\"name\":\"New Year's Day\"},{\"date\":\"2024-01-15\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2024-02-19\",\"name\":\"Washington's Birthday\"},{\"date\":\"2024-05-27\",\"name\":\"Memorial Day\"},{\"date\":\"2024-06-19\",\"name\":\"Juneteenth\"},{\"date\":\"2024-07-04\",\"name\":\"Independence Day\"},{\"date\":\"2024-09-02\",\"name\":\"Labor Day\"},{\"date\":\"2024-10-14\",\"name\":\"Columbus Day\"},{\"date\":\"2024-11-11\",\"name\":\"Veterans Day\"},{\"date\":\"2024-11-28\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2024-12-25\",\"name\":\"Christmas Day\"}],\"2025\":[{\"date\":\"2025-01-01\",\"name\":\"New Year's Day\"},{\"date\":\"2025-01-20\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2025-02-17\",\"name\":\"Washington's Birthday\"},{\"date\":\"2025-05-26\",\"name\":\"Memorial Day\"},{\"date\":\"2025-06-19\",\"name\":\"Juneteenth\"},{\"date\":\"2025-07-04\",\"name\":\"Independence Day\"},{\"date\":\"2025-09-01\",\"name\":\"Labor Day\"},{\"date\":\"2025-10-13\",\"name\":\"Columbus Day\"},{\"date\":\"2025-11-11\",\"name\":\"Veterans Day\"},{\"date\":\"2025-11-27\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2025-12-25\",\"name\":\"Christmas Day\"}],\"2026\":[{\"date\":\"2026-01-01\",\"name\":\"New Year's Day\"},{\"date\":\"2026-01-19\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2026-02-16\",\"name\":\"Washington's Birthday\"},{\"date\":\"2026-05-25\",\"name\":\"Memorial Day\"},{\"date\":\"2026-06-19\",\"name\":\"Juneteenth\"},{\"date\":\"2026-07-03\",\"name\":\"Independence Day\"},{\"date\":\"2026-09-07\",\"name\":\"Labor Day\"},{\"date\":\"2026-10-12\",\"name\":\"Columbus Day\"},{\"date\":\"2026-11-11\",\"name\":\"Veterans Day\"},{\"date\":\"2026-11-26\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2026-12-25\",\"name\":\"Christmas Day\"}],\"2027\":[{\"date\":\"2027-01-01\",\"name\":\"New Year's Day\"},{\"date\":\"2027-01-18\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2027-02-15\",\"name\":\"Washington's Birthday\"},{\"date\":\"2027-05-31\",\"name\":\"Memorial Day\"},{\"date\":\"2027-06-18\",\"name\":\"Juneteenth\"},{\"date\":\"2027-07-05\",\"name\":\"Independence Day\"},{\"date\":\"2027-09-06\",\"name\":\"Labor Day\"},{\"date\":\"2027-10-11\",\"name\":\"Columbus Day\"},{\"date\":\"2027-11-11\",\"name\":\"Veterans Day\"},{\"date\":\"2027-11-25\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2027-12-24\",\"name\":\"Christmas Day\"}],\"2028\":[{\"date\":\"2027-12-31\",\"name\":\"New Year's Day\"},{\"date\":\"2028-01-17\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2028-02-21\",\"name\":\"Washington's Birthday\"},{\"date\":\"2028-05-29\",\"name\":\"Memorial Day\"},{\"date\":\"2028-06-19\",\"name\":\"Juneteenth\"},{\"date\":\"2028-07-04\",\"name\":\"Independence Day\"},{\"date\":\"2028-09-04\",\"name\":\"Labor Day\"},{\"date\":\"2028-10-09\",\"name\":\"Columbus Day\"},{\"date\":\"2028-11-10\",\"name\":\"Veterans Day\"},{\"date\":\"2028-11-23\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2028-12-25\",\"name\":\"Christmas Day\"}],\"2029\":[{\"date\":\"2029-01-01\",\"name\":\"New Year's Day\"},{\"date\":\"2029-01-15\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2029-02-19\",\"name\":\"Washington's Birthday\"},{\"date\":\"2029-05-28\",\"name\":\"Memorial Day\"},{\"date\":\"2029-06-19\",\"name\":\"Juneteenth\"},{\"date\":\"2029-07-04\",\"name\":\"Independence Day\"},{\"date\":\"2029-09-03\",\"name\":\"Labor Day\"},{\"date\":\"2029-10-08\",\"name\":\"Columbus Day\"},{\"date\":\"2029-11-12\",\"name\":\"Veterans Day\"},{\"date\":\"2029-11-22\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2029-12-25\",\"name\":\"Christmas Day\"}],\"2030\":[{\"date\":\"2030-01-01\",\"name\":\"New Year's Day\"},{\"date\":\"2030-01-21\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2030-02-18\",\"name\":\"Washington's Birthday\"},{\"date\":\"2030-05-27\",\"name\":\"Memorial Day\"},{\"date\":\"2030-06-19\",\"name\":\"Juneteenth\"},{\"date\":\"2030-07-04\",\"name\":\"Independence Day\"},{\"date\":\"2030-09-02\",\"name\":\"Labor Day\"},{\"date\":\"2030-10-14\",\"name\":\"Columbus Day\"},{\"date\":\"2030-11-11\",\"name\":\"Veterans Day\"},{\"date\":\"2030-11-28\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2030-12-25\",\"name\":\"Christmas Day\"}],\"2031\":[{\"date\":\"2031-01-01\",\"name\":\"New Year's Day\"},{\"date\":\"2031-01-20\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2031-02-17\",\"name\":\"Washington's Birthday\"},{\"date\":\"2031-05-26\",\"name\":\"Memorial Day\"},{\"date\":\"2031-06-19\",\"name\":\"Juneteenth\"},{\"date\":\"2031-07-04\",\"name\":\"Independence Day\"},{\"date\":\"2031-09-01\",\"name\":\"Labor Day\"},{\"date\":\"2031-10-13\",\"name\":\"Columbus Day\"},{\"date\":\"2031-11-11\",\"name\":\"Veterans Day\"},{\"date\":\"2031-11-27\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2031-12-25\",\"name\":\"Christmas Day\"}],\"2032\":[{\"date\":\"2032-01-01\",\"name\":\"New Year's Day\"},{\"date\":\"2032-01-19\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2032-02-16\",\"name\":\"Washington's Birthday\"},{\"date\":\"2032-05-31\",\"name\":\"Memorial Day\"},{\"date\":\"2032-06-18\",\"name\":\"Juneteenth\"},{\"date\":\"2032-07-05\",\"name\":\"Independence Day\"},{\"date\":\"2032-09-06\",\"name\":\"Labor Day\"},{\"date\":\"2032-10-11\",\"name\":\"Columbus Day\"},{\"date\":\"2032-11-11\",\"name\":\"Veterans Day\"},{\"date\":\"2032-11-25\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2032-12-24\",\"name\":\"Christmas Day\"}],\"2033\":[{\"date\":\"2032-12-31\",\"name\":\"New Year's Day\"},{\"date\":\"2033-01-17\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2033-02-21\",\"name\":\"Washington's Birthday\"},{\"date\":\"2033-05-30\",\"name\":\"Memorial Day\"},{\"date\":\"2033-06-20\",\"name\":\"Juneteenth\"},{\"date\":\"2033-07-04\",\"name\":\"Independence Day\"},{\"date\":\"2033-09-05\",\"name\":\"Labor Day\"},{\"date\":\"2033-10-10\",\"name\":\"Columbus Day\"},{\"date\":\"2033-11-11\",\"name\":\"Veterans Day\"},{\"date\":\"2033-11-24\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2033-12-26\",\"name\":\"Christmas Day\"}],\"2034\":[{\"date\":\"2034-01-02\",\"name\":\"New Year's Day\"},{\"date\":\"2034-01-16\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2034-02-20\",\"name\":\"Washington's Birthday\"},{\"date\":\"2034-05-29\",\"name\":\"Memorial Day\"},{\"date\":\"2034-06-19\",\"name\":\"Juneteenth\"},{\"date\":\"2034-07-04\",\"name\":\"Independence Day\"},{\"date\":\"2034-09-04\",\"name\":\"Labor Day\"},{\"date\":\"2034-10-09\",\"name\":\"Columbus Day\"},{\"date\":\"2034-11-10\",\"name\":\"Veterans Day\"},{\"date\":\"2034-11-23\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2034-12-25\",\"name\":\"Christmas Day\"}],\"2035\":[{\"date\":\"2035-01-01\",\"name\":\"New Year's Day\"},{\"date\":\"2035-01-15\",\"name\":\"Martin Luther King Jr. Day\"},{\"date\":\"2035-02-19\",\"name\":\"Washington's Birthday\"},{\"date\":\"2035-05-28\",\"name\":\"Memorial Day\"},{\"date\":\"2035-06-19\",\"name\":\"Juneteenth\"},{\"date\":\"2035-07-04\",\"name\":\"Independence Day\"},{\"date\":\"2035-09-03\",\"name\":\"Labor Day\"},{\"date\":\"2035-10-08\",\"name\":\"Columbus Day\"},{\"date\":\"2035-11-12\",\"name\":\"Veterans Day\"},{\"date\":\"2035-11-22\",\"name\":\"Thanksgiving Day\"},{\"date\":\"2035-12-25\",\"name\":\"Christmas Day\"}]}"
+}

@@ -1,0 +1,180 @@
+---
+title: Tools
+description: The three tools of leavesheet-mcp, their inputs and an example response for each.
+---
+
+# Tools
+
+| Tool | What it returns |
+|---|---|
+| `wh347_payroll_lines` | Per worker: hours, 6A rates, 6B fringe credit, 6C cash in lieu, 7A and 7B gross, 8 deductions, 9 net pay and a sanity flag; crew totals per fringe plan and the 6B reconciliation |
+| `wh347_fringe_reconcile` | Sum of column 6B against the fringe paid to the four plans |
+| `pto_accrual` | Months worked, years of service, effective rate, accrued days, carryover, days taken, pending and left |
+
+## wh347_payroll_lines
+
+Input: `{ "workers": [...] }`, one entry per worker-week on one project (1 to 500 entries). Field names follow the CSV
+columns of the `wh347` command.
+
+| Field | Meaning |
+|---|---|
+| `worker` | free label, column 1 |
+| `type` | `J`, `RA` or empty (column 2) |
+| `base_rate` | base hourly rate, column 6A |
+| `fringe_health_welfare`, `fringe_pension`, `fringe_vacation`, `fringe_training` | fringe $/h per plan |
+| `st_hours`, `ot_hours` | arrays of up to 7 daily values; overtime is paid at base rate x 1.5 |
+| `cash_in_lieu_rate` | cash paid in lieu of fringe, $/h (column 6C) |
+| `gross_all_work` | column 7B; omit it to use 7A |
+| `fica`, `federal_tax`, `state_tax`, `other_deductions` | column 8 |
+
+Omitted numbers are 0; negative numbers are rejected. `csv_line` in the output is the line the worker would have in
+the equivalent CSV (header = line 1). The output is the same JSON as `wh347 --json`.
+
+Example call:
+
+```json
+{ "workers": [{ "worker": "John Mason", "type": "J", "base_rate": 30,
+  "fringe_health_welfare": 4, "fringe_pension": 2,
+  "st_hours": [8, 8, 8, 8, 8], "ot_hours": [4], "other_deductions": 310 }] }
+```
+
+Response (version 0.1.0):
+
+```json
+{
+  "form": "WH-347 (Rev. January 2025)",
+  "lines": [
+    {
+      "csv_line": 2,
+      "worker": "John Mason",
+      "worker_type": "J",
+      "st_hours": 40,
+      "ot_hours": 4,
+      "total_hours": 44,
+      "rate_6a_st": 30,
+      "rate_6a_ot": 45,
+      "fringe_6b": 264,
+      "cash_in_lieu_6c": 0,
+      "gross_project_7a": 1380,
+      "gross_all_work_7b": 1380,
+      "gross_all_work_7b_entered": false,
+      "deductions_8": 310,
+      "net_pay_9": 1070,
+      "sanity": "ok"
+    }
+  ],
+  "plan_totals": {
+    "health_welfare": 176,
+    "pension": 88,
+    "vacation": 0,
+    "training": 0
+  },
+  "plan_totals_sum": 264,
+  "fringe_column_6b_sum": 264,
+  "reconciles": true,
+  "source": "TableTemplates LeaveSheet WH-347 engine (port of codeberg.org/tresor2k/tabletemplates-go/wh347)",
+  "reference_url": "https://tabletemplates.com/certified-payroll-software/",
+  "disclaimer": "Calculator output only: not legal or payroll advice, not an official DOL tool."
+}
+```
+
+## wh347_fringe_reconcile
+
+Takes the same worker entries as `wh347_payroll_lines`; only hours and fringe rates matter. It compares the sum of
+column 6B with the fringe paid to the four plans (health and welfare, pension, vacation/holiday, training).
+`reconciles` is true when the gap is under 0.005.
+
+Example call with two workers, `John Mason` as above and an apprentice:
+
+```json
+{ "workers": [
+  { "worker": "John Mason", "type": "J", "base_rate": 30,
+    "fringe_health_welfare": 4, "fringe_pension": 2,
+    "st_hours": [8, 8, 8, 8, 8], "ot_hours": [4], "other_deductions": 310 },
+  { "worker": "Ana Ruiz", "type": "RA", "base_rate": 20,
+    "fringe_health_welfare": 4, "fringe_training": 1,
+    "st_hours": [8, 8, 8, 8, 8] } ] }
+```
+
+Response (version 0.1.0):
+
+```json
+{
+  "form": "WH-347 (Rev. January 2025)",
+  "lines": [
+    {
+      "csv_line": 2,
+      "worker": "John Mason",
+      "total_hours": 44,
+      "fringe_6b": 264
+    },
+    {
+      "csv_line": 3,
+      "worker": "Ana Ruiz",
+      "total_hours": 40,
+      "fringe_6b": 200
+    }
+  ],
+  "plan_totals": {
+    "health_welfare": 336,
+    "pension": 88,
+    "vacation": 0,
+    "training": 40
+  },
+  "plan_totals_sum": 464,
+  "fringe_column_6b_sum": 464,
+  "tolerance": 0.005,
+  "reconciles": true,
+  "source": "TableTemplates LeaveSheet WH-347 engine (port of codeberg.org/tresor2k/tabletemplates-go/wh347)",
+  "reference_url": "https://tabletemplates.com/certified-payroll-software/",
+  "disclaimer": "Calculator output only: not legal or payroll advice, not an official DOL tool."
+}
+```
+
+## pto_accrual
+
+| Input | Rule |
+|---|---|
+| `policy` | `period` (`monthly` or `annual`), `rate`, `annual_cap`, `carryover_max`, optional `tier1_years`/`tier1_bonus` and `tier2_years`/`tier2_bonus` (tier 2 replaces tier 1) |
+| `hire_date`, `as_of` | dates, `YYYY-MM-DD` |
+| `carryover` | days carried over, entered by you, capped by the policy |
+| `requests` | `start`, `end`, `start_half`, `end_half`, `status` (`pending`, `approved`, `denied` or `cancelled`); only approved requests are deducted |
+| `holidays` | non-working dates |
+| `us_federal_holidays_years` | adds the 11 U.S. federal holidays (observed dates) of the listed years |
+
+`left` is carryover + accrued - taken and may be negative.
+
+Example call:
+
+```json
+{
+  "policy": { "period": "monthly", "rate": 1.25, "annual_cap": 15, "carryover_max": 5 },
+  "hire_date": "2026-03-15", "as_of": "2026-06-30", "carryover": 3
+}
+```
+
+Response (version 0.1.0):
+
+```json
+{
+  "balance": {
+    "months_worked": 4,
+    "years_of_service": 0.29315068493150687,
+    "effective_rate": 1.25,
+    "accrued": 5,
+    "carryover": 3,
+    "taken": 0,
+    "pending": 0,
+    "left": 8,
+    "is_negative": false
+  },
+  "request_days": [],
+  "source": "TableTemplates LeaveSheet PTO engine (port of codeberg.org/tresor2k/tabletemplates-go/pto)",
+  "reference_url": "https://tabletemplates.com/pto-tracking-software/",
+  "disclaimer": "Calculator output only: not legal or payroll advice; state paid-leave laws are not encoded."
+}
+```
+
+For the LeaveSheet pages behind these calculators, see
+[WH-347 certified payroll](https://tabletemplates.com/certified-payroll-software/) and
+[PTO tracking](https://tabletemplates.com/pto-tracking-software/).
